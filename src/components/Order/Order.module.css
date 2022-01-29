@@ -1,0 +1,30 @@
+.Order{
+    width:90%;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 10px;
+    margin: 10px auto;
+    box-sizing: border-box;
+}
+
+.Ingredient{
+    text-transform: capitalize;
+    display: inline-block;
+    margin: 0 8px;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.Ingredients{
+    width: 150px;
+    height: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-left: 50px;
+    justify-content: space-between;
+    gap: 10px;
+}
+.Ingredients div{
+    display: flex;
+    justify-content: space-between;
+}
