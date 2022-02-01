@@ -1,6 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
 import axios from '../../axios-orders';
-import {FETCH_ORDERS_START} from "../actions/actionTypes";
 
 export const purchaseBurgerSuccess = (id, orderData) => {
     return {

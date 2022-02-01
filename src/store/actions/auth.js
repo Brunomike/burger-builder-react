@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionTypes from './actionTypes';
-
+import * as keys from '../../../keys';
 
 export const authStart = () => {
     return {
@@ -48,9 +48,9 @@ export const auth = (email, password, isSignUp) => {
             password: password,
             returnSecureToken: true
         }
-        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAiXfuVkfcNsd3e-GYoL3iOOygmDUBsWZk'
+        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + keys.API_KEY
         if (!isSignUp) {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAiXfuVkfcNsd3e-GYoL3iOOygmDUBsWZk'
+            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + keys.API_KEY
         }
         axios.post(url, authData)
             .then(response => {
@@ -89,7 +89,7 @@ export const authCheckState = () => {
             } else {
                 const userId = localStorage.getItem('userId')
                 dispatch(authSuccess(token, userId))
-                dispatch(checkAuthTimeout((expirationTime.getTime() - new Date().getTime())/100))
+                dispatch(checkAuthTimeout((expirationTime.getTime() - new Date().getTime()) / 100))
             }
 
         }
