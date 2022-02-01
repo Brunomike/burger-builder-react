@@ -8,6 +8,7 @@ import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
+import {updateObject,checkValidity} from "../../shared/utility";
 
 class ContactData extends Component {
     state = {
@@ -107,9 +108,9 @@ class ContactData extends Component {
             ingredients: this.props.ings,
             price: this.props.totalP,
             orderData: formData,
-            userId:this.props.userId
+            userId: this.props.userId
         }
-        this.props.onOrderBurger(order,this.props.token)
+        this.props.onOrderBurger(order, this.props.token)
         // axios.post('/orders.json', order)
         //     .then(response => {
         //         this.setState({loading: false})
@@ -123,41 +124,37 @@ class ContactData extends Component {
         //     });
     }
 
-    checkValidity(value, rules) {
-        let isValid = true
-        // if (!rules){
-        //     return true
-        // }
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-        return isValid;
-    }
 
     inputChangedHandler = (e, inputIdentifier) => {
-        const updatedOrderForm = {...this.state.orderForm}
-        const updatedFormElement = {...updatedOrderForm[inputIdentifier]}
-        updatedFormElement.value = e.target.value;
+        //const updatedOrderForm = {...this.state.orderForm}
+        const updatedFormElement = updateObject(
+            this.state.orderForm[inputIdentifier], {
+                value: e.target.value,
+                valid: checkValidity(e.target.value,this.state.orderForm[inputIdentifier].validation),
+                touched: true
+            })
+        const updatedOrderForm=updateObject(
+            this.state.orderForm,{
+                [inputIdentifier]:updatedFormElement
+            }
+        )
+        // {...updatedOrderForm[inputIdentifier]}
+        //updatedFormElement.value = e.target.value;
+
+
+        //if (updatedFormElement.valid || !updatedFormElement.valid) {
+        // updatedFormElement.touched = true
+        // updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
+        //updatedOrderForm[inputIdentifier] = updatedFormElement
 
         let formIsValid = true;
-        //if (updatedFormElement.valid || !updatedFormElement.valid) {
-        updatedFormElement.touched = true
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
-        updatedOrderForm[inputIdentifier] = updatedFormElement
-
         for (let inputIdentifiers in updatedOrderForm) {
             formIsValid = updatedOrderForm[inputIdentifiers].valid && formIsValid
         }
         //}
 
         //console.log(updatedFormElement)
-        console.log(formIsValid)
+        //console.log(formIsValid)
 
         this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid})
     }
@@ -201,16 +198,16 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         totalP: state.burgerBuilder.totalPrice,
-        loading:state.order.loading,
-        token:state.auth.token,
-        userId:state.auth.userId
+        loading: state.order.loading,
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
 
 const mapDispatchToProps = dispatch => {
-    return{
-        onOrderBurger:(orderData,token) => dispatch(actions.purchaseBurger(orderData,token))
+    return {
+        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
     }
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(withErrorHandler(ContactData, axios)));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withErrorHandler(ContactData, axios)));
