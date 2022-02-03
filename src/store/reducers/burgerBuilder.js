@@ -1,5 +1,4 @@
 import * as actionTypes from '../actions/actionTypes';
-import * as actionCreators from '../actions/burgerBuilder';
 import {updateObject} from "../../shared/utility";
 
 const initialState = {
@@ -26,14 +25,6 @@ const addIngredient = (state, action) => {
     }
     return updateObject(state, updatedState)
 
-    // return {
-    //     ...state,
-    //     ingredients: {
-    //         ...state.ingredients,
-    //         [action.ingredientName]: state.ingredients[action.ingredientName] + 1
-    //     },
-    //     totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
-    // };
 }
 const removeIngredient = (state, action) => {
     const updatedIng = {[action.ingredientName]: state.ingredients[action.ingredientName] - 1}
@@ -44,14 +35,7 @@ const removeIngredient = (state, action) => {
         building: true
     }
     return updateObject(state, updatedState1)
-    // return {
-    //     ...state,
-    //     ingredients: {
-    //         ...state.ingredients,
-    //         [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-    //     },
-    //     totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
-    // };
+
 }
 const setIngredient = (state, action) => {
     return updateObject(state, {

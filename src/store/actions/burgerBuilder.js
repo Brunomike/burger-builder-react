@@ -27,12 +27,15 @@ export const fetchIngredientsFailed=()=>{
 }
 
 export const initIngredients = () => {
-    return dispatch => {
-        axios.get('https://myburger-react-9da4a-default-rtdb.firebaseio.com/ingredients.json')
-            .then(response => {
-                dispatch(setIngredients(response.data))
-            }).catch(err => {
-                dispatch(fetchIngredientsFailed())
-        });
+    // return dispatch => {
+    //     axios.get('https://myburger-react-9da4a-default-rtdb.firebaseio.com/ingredients.json')
+    //         .then(response => {
+    //             dispatch(setIngredients(response.data))
+    //         }).catch(err => {
+    //             dispatch(fetchIngredientsFailed())
+    //     });
+    // }
+    return{
+        type:actionTypes.INIT_INGREDIENTS
     }
 };
